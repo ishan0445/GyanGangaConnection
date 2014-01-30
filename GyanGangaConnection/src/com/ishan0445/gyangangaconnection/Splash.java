@@ -28,13 +28,18 @@ public class Splash extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} finally {
+					
 					Intent main = new Intent(Splash.this, MainActivity.class);
 					startActivity(main);
+					finish();
 				}
 			}
 		};
 		timer.start();
+		
 
 	}
+	
+	
 
 }

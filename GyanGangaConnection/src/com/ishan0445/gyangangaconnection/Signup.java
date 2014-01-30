@@ -3,29 +3,31 @@ package com.ishan0445.gyangangaconnection;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-import com.quickblox.core.QBSettings;
 
 public class Signup extends Activity implements OnClickListener {
 	private Button bt;
 	private EditText userName, email, rollNo, password, passwordRe, name;
 	private TextView tex;
+	private ProgressBar mProgressBar;
 
 	private Typeface type;
-	private ProgressDialog progressDialog;
 
 	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern
 			.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@"
@@ -38,9 +40,6 @@ public class Signup extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signup);
 
-		QBSettings.getInstance().fastConfigInit("6568", "yuNFJRaYP56WWWO",
-				"v7NP2NT3JTzTFBe");
-
 		bt = (Button) findViewById(R.id.btnSignup);
 		userName = (EditText) findViewById(R.id.SUsername);
 		password = (EditText) findViewById(R.id.SPassword);
@@ -49,8 +48,7 @@ public class Signup extends Activity implements OnClickListener {
 		name = (EditText) findViewById(R.id.Name);
 		rollNo = (EditText) findViewById(R.id.rollNO);
 		tex = (TextView) findViewById(R.id.sigupTop);
-		progressDialog = new ProgressDialog(this);
-		progressDialog.setMessage("Loading");
+		mProgressBar = (ProgressBar)findViewById(R.id.progress);
 
 		type = Typeface.createFromAsset(getAssets(), "fonts/roboto.ttf");
 
@@ -82,16 +80,17 @@ public class Signup extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		progressDialog.show();
+
 		final String user = userName.getText().toString();
 		final String pass = password.getText().toString();
 		String passRe = passwordRe.getText().toString();
 		final String ema = email.getText().toString();
 		final String nam = name.getText().toString();
 		String roll = rollNo.getText().toString();
-		progressDialog.show();
+
 		if (checkEmail(ema)) {
 			if (pass.equals(passRe)) {
+				mProgressBar.setVisibility(View.VISIBLE);
 				ParseUser parseUser = new ParseUser();
 				parseUser.setUsername(user);
 				parseUser.setPassword(pass);
@@ -107,8 +106,10 @@ public class Signup extends Activity implements OnClickListener {
 						// TODO Auto-generated method stub
 						if (e == null) {
 							// Hooray! Let them use the app now.
+							mProgressBar.setVisibility(View.INVISIBLE);
+
 							Intent in = new Intent(Signup.this,
-									FriendsList.class);
+									FollowedFriendList.class);
 							startActivity(in);
 						} else {
 							// Sign up didn't succeed. Look at the
@@ -125,6 +126,29 @@ public class Signup extends Activity implements OnClickListener {
 		} else {
 			Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
 		}
-		progressDialog.hide();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu);
+		MenuInflater blowUp = getMenuInflater();
+		blowUp.inflate(R.menu.menu2, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+
+		case R.id.ExitMenu:
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			break;
+		}
+		return false;
 	}
 }

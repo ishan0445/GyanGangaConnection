@@ -4,5 +4,11 @@
     <item
         android:id="@+id/LogoutMenu"
         android:title="Logout"/>
+    <item
+        android:id="@+id/FollowMenu"
+        android:title="Follow"/>
+    <item
+        android:id="@+id/ExitMenu"
+        android:title="Exit"/>
 
 </menu>

@@ -10,62 +10,78 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="match_parent" >
 
-            <TextView
-                android:id="@+id/loginTop"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="501dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/loginTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Login:"
+                    
+                    android:textColor="@android:color/white"
+                    android:textSize="55sp" />
+
+                <EditText
+                    android:id="@+id/LUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/edittext"
+                    android:drawableLeft="@drawable/ic_social_person"
+                    android:ems="10"
+                    android:hint="Username"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF" />
+
+                <requestFocus />
+
+                <EditText
+                    android:id="@+id/LPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/edittext"
+                    android:drawableLeft="@drawable/ic_action_about"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF" >
+                </EditText>
+
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/buttons"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Login"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Login:"
-                android:textColor="@android:color/white"
-                android:textSize="55sp" />
-
-            <EditText
-                android:id="@+id/LUsername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/edittext"
-                android:drawableLeft="@drawable/ic_social_person"
-                android:ems="10"
-                android:hint="Username"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF" />
-
-            <requestFocus />
-
-            <EditText
-                android:id="@+id/LPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/edittext"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword"
-                
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:drawableLeft="@drawable/ic_action_about" >
-            </EditText>
-
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@drawable/buttons"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Login"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp" />
-        </LinearLayout>
+                android:visibility="invisible"
+                android:indeterminateDrawable="@drawable/progressbar"
+                android:minHeight="48dp" />
+
+        </FrameLayout>
     </ScrollView>
 
 </LinearLayout>

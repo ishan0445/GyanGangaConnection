@@ -5,11 +5,15 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,7 +36,7 @@ public class FriendsList extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_users);
-		mProgressBar = (ProgressBar) findViewById(R.id.progressBar1);
+		mProgressBar = (ProgressBar) findViewById(R.id.progress);
 		getAllUsers();
 
 		Typeface type = Typeface.createFromAsset(getAssets(),
@@ -46,11 +50,11 @@ public class FriendsList extends ListActivity {
 		mProgressBar.setVisibility(View.VISIBLE);
 
 		ParseQuery<ParseUser> query = ParseUser.getQuery();
-		query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+		query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 		query.orderByAscending("username");
 		query.findInBackground(new FindCallback<ParseUser>() {
 			public void done(List<ParseUser> objects, ParseException e) {
-				mProgressBar.setVisibility(View.INVISIBLE);
+				
 
 				if (e == null) {
 					objects = removeCurrentUser(objects);
@@ -67,6 +71,7 @@ public class FriendsList extends ListActivity {
 												FriendsList.this, mUsers,
 												new ArrayList<ParseObject>(
 														results));
+										mProgressBar.setVisibility(View.INVISIBLE);
 										setListAdapter(adapter);
 									} else {
 										Log.e(TAG, "Exception caught!", e);
@@ -110,6 +115,40 @@ public class FriendsList extends ListActivity {
 		}
 
 		return objects;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu);
+		MenuInflater blowUp = getMenuInflater();
+		blowUp.inflate(R.menu.menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.FollowMenu:
+			Intent main = new Intent(FriendsList.this, FriendsList.class);
+			startActivity(main);
+			break;
+
+		case R.id.LogoutMenu:
+			ParseUser.logOut();
+			Intent a1 = new Intent(FriendsList.this, Login.class);
+			startActivity(a1);
+			break;
+
+		case R.id.ExitMenu:
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			break;
+		}
+		return false;
 	}
 
 }

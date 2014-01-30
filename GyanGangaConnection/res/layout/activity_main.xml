@@ -7,19 +7,41 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/FriendsTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Friends:"
-        android:textColor="@android:color/white"
-        android:textSize="55sp" />
-
-    <ListView
-        android:id="@android:id/list"
+    <FrameLayout
+        android:id="@+id/FrameLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/LinearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/FriendsTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Friends:"
+                android:textColor="@android:color/white"
+                android:textSize="55sp" />
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </ListView>
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/progressbar"
+            android:minHeight="48dp" />
+    </FrameLayout>
 
 </LinearLayout>

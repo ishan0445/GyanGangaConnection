@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelectUsersActivity"
-    android:background="#000000" >
+    android:background="#000000"
+    tools:context=".SelectUsersActivity" >
 
     <TextView
         android:id="@+id/FriendlistTop"
@@ -21,15 +21,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/FriendlistTop" >
-
     </ListView>
 
     <ProgressBar
-        android:id="@+id/progressBar1"
+        android:id="@+id/progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="invisible" />
+        android:layout_gravity="center"
+        android:indeterminateDrawable="@drawable/progressbar"
+        android:minHeight="48dp" />
 
 </RelativeLayout>
