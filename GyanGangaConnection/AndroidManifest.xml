@@ -75,6 +75,7 @@
         </activity>
         <activity android:name="FriendsList"></activity>
         <activity android:name="FollowedFriendList"></activity>
+        <activity android:name="ResetPassword"></activity>
     </application>
 
 </manifest>

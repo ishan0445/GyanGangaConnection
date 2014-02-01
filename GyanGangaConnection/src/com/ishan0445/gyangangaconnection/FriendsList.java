@@ -138,6 +138,7 @@ public class FriendsList extends ListActivity {
 		case R.id.LogoutMenu:
 			ParseUser.logOut();
 			Intent a1 = new Intent(FriendsList.this, Login.class);
+			finish();
 			startActivity(a1);
 			break;
 

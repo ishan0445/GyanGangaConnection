@@ -66,7 +66,6 @@ public class FollowedFriendList extends ListActivity implements
 
 				if (e == null) {
 					objects = removeCurrentUser(objects);
-					
 
 					ParseRelation<ParseUser> userRelations = ParseUser
 							.getCurrentUser().getRelation("UserRelation");
@@ -75,7 +74,8 @@ public class FollowedFriendList extends ListActivity implements
 								public void done(List<ParseUser> results,
 										ParseException e) {
 									if (e == null) {
-										mUsers = results.toArray(new ParseObject[0]);
+										mUsers = results
+												.toArray(new ParseObject[0]);
 										FollowedUsersAdapter adapter = new FollowedUsersAdapter(
 												FollowedFriendList.this,
 												mUsers,
@@ -84,20 +84,22 @@ public class FollowedFriendList extends ListActivity implements
 										mProgressBar
 												.setVisibility(View.INVISIBLE);
 										setListAdapter(adapter);
-
+										if (results.isEmpty() == true) {
+											Toast.makeText(
+													FollowedFriendList.this,
+													"Press Menu key and Follow Some Users",
+													Toast.LENGTH_LONG).show();
+										}
 									} else {
 										Log.e(TAG, "Exception caught!", e);
 									}
 								}
 							});
 				} else if (!isOnline()) {
+					mProgressBar.setVisibility(View.INVISIBLE);
 					Toast.makeText(FollowedFriendList.this,
 							"Sorry, No network access!", Toast.LENGTH_LONG)
 							.show();
-				} else {
-					Toast.makeText(FollowedFriendList.this,
-							"Sorry, there was an error getting users!",
-							Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -134,7 +136,6 @@ public class FollowedFriendList extends ListActivity implements
 		// TODO Auto-generated method stub
 		Toast.makeText(FollowedFriendList.this, "hello", Toast.LENGTH_SHORT)
 				.show();
-		
 
 	}
 
@@ -159,6 +160,7 @@ public class FollowedFriendList extends ListActivity implements
 		case R.id.LogoutMenu:
 			ParseUser.logOut();
 			Intent a1 = new Intent(FollowedFriendList.this, Login.class);
+			finish();
 			startActivity(a1);
 			break;
 
@@ -170,6 +172,24 @@ public class FollowedFriendList extends ListActivity implements
 			break;
 		}
 		return false;
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		getFollowedUsers();
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_HOME);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+
 	}
 
 }

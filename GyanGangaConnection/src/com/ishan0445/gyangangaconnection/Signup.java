@@ -48,7 +48,7 @@ public class Signup extends Activity implements OnClickListener {
 		name = (EditText) findViewById(R.id.Name);
 		rollNo = (EditText) findViewById(R.id.rollNO);
 		tex = (TextView) findViewById(R.id.sigupTop);
-		mProgressBar = (ProgressBar)findViewById(R.id.progress);
+		mProgressBar = (ProgressBar) findViewById(R.id.progress);
 
 		type = Typeface.createFromAsset(getAssets(), "fonts/roboto.ttf");
 
@@ -81,43 +81,51 @@ public class Signup extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 
-		final String user = userName.getText().toString();
+		final String user = userName.getText().toString().toLowerCase().trim();
 		final String pass = password.getText().toString();
 		String passRe = passwordRe.getText().toString();
-		final String ema = email.getText().toString();
-		final String nam = name.getText().toString();
-		String roll = rollNo.getText().toString();
+		final String ema = email.getText().toString().toLowerCase().trim();
+		final String nam = name.getText().toString().trim();
+		String roll = rollNo.getText().toString().toUpperCase().trim();
 
 		if (checkEmail(ema)) {
 			if (pass.equals(passRe)) {
-				mProgressBar.setVisibility(View.VISIBLE);
-				ParseUser parseUser = new ParseUser();
-				parseUser.setUsername(user);
-				parseUser.setPassword(pass);
-				parseUser.setEmail(ema);
+				if (!containsWhiteSpace(nam)) {
+					Toast.makeText(getApplicationContext(),
+							"UserName cannot contain Spaces",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					mProgressBar.setVisibility(View.VISIBLE);
+					ParseUser parseUser = new ParseUser();
+					parseUser.setUsername(user);
+					parseUser.setPassword(pass);
+					parseUser.setEmail(ema);
 
-				parseUser.put("RollNo", roll);
-				parseUser.put("Name", nam);
+					parseUser.put("RollNo", roll);
+					parseUser.put("Name", nam);
 
-				parseUser.signUpInBackground(new SignUpCallback() {
+					parseUser.signUpInBackground(new SignUpCallback() {
 
-					@Override
-					public void done(ParseException e) {
-						// TODO Auto-generated method stub
-						if (e == null) {
-							// Hooray! Let them use the app now.
-							mProgressBar.setVisibility(View.INVISIBLE);
+						@Override
+						public void done(ParseException e) {
+							// TODO Auto-generated method stub
+							if (e == null) {
+								mProgressBar.setVisibility(View.INVISIBLE);
 
-							Intent in = new Intent(Signup.this,
-									FollowedFriendList.class);
-							startActivity(in);
-						} else {
-							// Sign up didn't succeed. Look at the
-							// ParseException
-							// to figure out what went wrong
+								Intent in = new Intent(Signup.this,
+										FollowedFriendList.class);
+								startActivity(in);
+							} else {
+								if (Integer.parseInt(e.toString()) == ParseException.EMAIL_TAKEN) {
+									mProgressBar.setVisibility(View.INVISIBLE);
+									Toast.makeText(getApplicationContext(),
+											"Email Already Taken",
+											Toast.LENGTH_SHORT).show();
+								}
+							}
 						}
-					}
-				});
+					});
+				}
 
 			} else {
 				Toast.makeText(this, "Password Mismatch", Toast.LENGTH_SHORT)
@@ -150,5 +158,16 @@ public class Signup extends Activity implements OnClickListener {
 			break;
 		}
 		return false;
+	}
+	
+	public static boolean containsWhiteSpace(final String testCode){
+	    if(testCode != null){
+	        for(int i = 0; i < testCode.length(); i++){
+	            if(Character.isWhitespace(testCode.charAt(i))){
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
 	}
 }

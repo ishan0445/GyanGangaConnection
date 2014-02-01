@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -20,7 +21,7 @@ import com.parse.ParseUser;
 
 public class Login extends Activity implements OnClickListener {
 	private EditText password, userName;
-	private Button bt;
+	private Button bt, reset;
 	private TextView tex;
 	private ProgressBar mProgressBar;
 
@@ -34,9 +35,11 @@ public class Login extends Activity implements OnClickListener {
 		userName = (EditText) findViewById(R.id.LUsername);
 		password = (EditText) findViewById(R.id.LPassword);
 		bt = (Button) findViewById(R.id.btnLogin);
+		reset = (Button) findViewById(R.id.resetButton);
 		bt.setOnClickListener(this);
+		reset.setOnClickListener(this);
 		tex = (TextView) findViewById(R.id.loginTop);
-		mProgressBar = (ProgressBar)findViewById(R.id.progress);
+		mProgressBar = (ProgressBar) findViewById(R.id.progress);
 
 		Typeface type2 = Typeface.createFromAsset(getAssets(),
 				"fonts/roboto.ttf");
@@ -45,29 +48,53 @@ public class Login extends Activity implements OnClickListener {
 		bt.setTypeface(type2);
 		userName.setTypeface(type2);
 		password.setTypeface(type2);
+		reset.setTypeface(type2);
 
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		mProgressBar.setVisibility(View.VISIBLE);
-		ParseUser.logInInBackground(userName.getText().toString(), password
-				.getText().toString(), new LogInCallback() {
-			public void done(ParseUser user, ParseException e) {
-				if (user != null) {
-					// Hooray! The user is logged in.
-					mProgressBar.setVisibility(View.INVISIBLE);
-					Intent in = new Intent(Login.this,FollowedFriendList.class);
-					startActivity(in);
-				} else {
-					// Signup failed. Look at the ParseException to see what
-					// happened.
-				}
+		switch (v.getId()) {
+		case R.id.btnLogin:
+			mProgressBar.setVisibility(View.VISIBLE);
+			String user = userName.getText().toString();
+			String pass = password.getText().toString();
+
+			if (user.equals("") && pass.equals("")) {
+				Toast.makeText(getApplicationContext(),
+						"Username or Password cannot be left blank",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				ParseUser.logInInBackground(user.toLowerCase(), pass,
+						new LogInCallback() {
+							public void done(ParseUser user, ParseException e) {
+								if (user != null) {
+									// Hooray! The user is logged in.
+									mProgressBar.setVisibility(View.INVISIBLE);
+									Intent in = new Intent(Login.this,
+											FollowedFriendList.class);
+									startActivity(in);
+								} else {
+									// Signup failed. Look at the ParseException
+									// to see
+									// what
+									// happened.
+								}
+							}
+						});
 			}
-		});
+
+			break;
+
+		case R.id.resetButton:
+			Intent i = new Intent(Login.this, ResetPassword.class);
+			startActivity(i);
+			break;
+		}
+
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
@@ -76,7 +103,7 @@ public class Login extends Activity implements OnClickListener {
 		blowUp.inflate(R.menu.menu2, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -90,6 +117,15 @@ public class Login extends Activity implements OnClickListener {
 			break;
 		}
 		return false;
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		Intent main = new Intent(Login.this, LoginAndSignup.class);
+		finish();
+		startActivity(main);
 	}
 
 }

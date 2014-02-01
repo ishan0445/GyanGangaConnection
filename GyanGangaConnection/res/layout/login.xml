@@ -25,7 +25,6 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="Login:"
-                    
                     android:textColor="@android:color/white"
                     android:textSize="55sp" />
 
@@ -69,6 +68,19 @@
                     android:text="Login"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/resetButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/buttons"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Reset Password"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <ProgressBar
@@ -77,10 +89,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="invisible"
                 android:indeterminateDrawable="@drawable/progressbar"
-                android:minHeight="48dp" />
-
+                android:minHeight="48dp"
+                android:visibility="invisible" />
         </FrameLayout>
     </ScrollView>
 
